@@ -56,8 +56,12 @@ open_database(DB_PATH)
 TEXT_FOLDER = "text_files"
 output_folder = Path(TEXT_FOLDER)
 output_folder.mkdir(exist_ok=True)
-for year in ['1981', '1988', '1993']:
-    for type in ['legislatives', 'presidentielle']:
+YEARS = ['1981', '1988', '1993']
+ELECTIONS = ['legislatives', 'presidentielle']
+folder_id = {}
+for year in YEARS:
+    folder_id[year]= {}
+    for type in ELECTIONS:
         # create the folder
         year_folder = output_folder / year
         year_folder.mkdir(exist_ok=True)
@@ -68,31 +72,34 @@ for year in ['1981', '1988', '1993']:
 print("Number of folders", Element.select().where(Element.type == 'folder').count())
 print("Number of pages:", Element.select().where(Element.type == 'page').count())
 
-#legislatives_1981_id = 'd51ea3db-68ee-4cc0-a87f-736ee17c5f87'
-#presidentielle_1981_id = '4192aaa9-8485-433a-b0e3-559d2259e067'
-legislatives_1993_id = '8543cd16-364d-4c41-ae75-63845eb38587'
-year = '1988'
-type = 'legislatives'
-# list all documents in legislative_1981_id
-documents = list_children(legislatives_1993_id).where(Element.type == 'document')
 
-# number of documents
-print("Number of documents", documents.count())
-transcriptions_number = 0
-# for each document, list the direct children page, for each page extract the transcription , concatenate the transcription and save in a text file named as the document
-for document in tqdm(documents):
-    pages = list_children(document.id).where(Element.type == 'page')
-    transcriptions = ""
-    for page in pages:
-        print(page.id)
-        page_transcription = Transcription.select().where(Transcription.element == page.id).first()
-        if page_transcription:
-            transcriptions += page_transcription.text
+folder_id['1981']['legislatives'] = 'd51ea3db-68ee-4cc0-a87f-736ee17c5f87'
+folder_id['1988']['legislatives'] = 'dfba9f5c-02de-478c-85c5-0ee780455433'
+folder_id['1993']['legislatives'] = 'cf29300f-40bf-4b61-be93-6cb631be8fab'
+#folder_id['1981']['presidentielle'] =  '4192aaa9-8485-433a-b0e3-559d2259e067'
+folder_id['1988']['presidentielle'] = 'fd5bee0a-83e8-4bdc-aa48-52331af2e151'
 
-    if transcriptions:
-        with open(f"{TEXT_FOLDER}/{year}/{type}/{document.name}.txt", "w") as f:
-            f.write(transcriptions)
-        transcriptions_number += 1
-print("Number of transcriptions", transcriptions_number)
+for year in YEARS:
+    print ('year', year)
+    for e_type in ELECTIONS:
+        print ('elections', e_type)
+        f_id = folder_id[year].get(e_type, None)
+        if f_id:
+            documents = list_children(f_id).where(Element.type == 'document')
+            print(f_id,"Number of documents", documents.count())
+            transcriptions_number = 0
+            for document in tqdm(documents):
+                pages = list_children(document.id).where(Element.type == 'page')
+                transcriptions = ""
+                for page in pages:
+                    page_transcription = Transcription.select().where(Transcription.element == page.id).first()
+                    if page_transcription:
+                        transcriptions += page_transcription.text
+
+                if transcriptions:
+                    with open(f"{TEXT_FOLDER}/{year}/{e_type}/{document.name}.txt", "w") as f:
+                        f.write(transcriptions)
+                    transcriptions_number += 1
+            print("Number of transcriptions", transcriptions_number)
 
 
