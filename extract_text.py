@@ -4,7 +4,7 @@ from arkindex_export.queries import list_children
 from pathlib import Path
 from tqdm import tqdm
 
-DB_PATH = Path("sciencespo-archelec-20260217-121320.sqlite")
+DB_PATH = Path("sciencespo-archelec-20260318-121320.sqlite")
 
 
 
@@ -56,7 +56,7 @@ open_database(DB_PATH)
 TEXT_FOLDER = "text_files"
 output_folder = Path(TEXT_FOLDER)
 output_folder.mkdir(exist_ok=True)
-YEARS = ['1981', '1988', '1993']
+YEARS = ['1973', '1978', '1981', '1988', '1993']
 ELECTIONS = ['legislatives', 'presidentielle']
 folder_id = {}
 for year in YEARS:
@@ -72,14 +72,15 @@ for year in YEARS:
 print("Number of folders", Element.select().where(Element.type == 'folder').count())
 print("Number of pages:", Element.select().where(Element.type == 'page').count())
 
-
+folder_id['1973']['legislatives'] = '929ef8f9-c2c9-4d87-b858-f7af790aa752'
+folder_id['1978']['legislatives'] = '117d3883-f985-476e-b8d4-3732d8753d7a'
 folder_id['1981']['legislatives'] = 'd51ea3db-68ee-4cc0-a87f-736ee17c5f87'
 folder_id['1988']['legislatives'] = 'dfba9f5c-02de-478c-85c5-0ee780455433'
 folder_id['1993']['legislatives'] = 'cf29300f-40bf-4b61-be93-6cb631be8fab'
 #folder_id['1981']['presidentielle'] =  '4192aaa9-8485-433a-b0e3-559d2259e067'
 folder_id['1988']['presidentielle'] = 'fd5bee0a-83e8-4bdc-aa48-52331af2e151'
 
-for year in YEARS:
+for year in ['1973', '1978']:#YEARS:
     print ('year', year)
     for e_type in ELECTIONS:
         print ('elections', e_type)
