@@ -45,32 +45,7 @@ python -m spacy download fr_core_news_lg
 
 Les chemins dans les notebooks supposent d’être exécutés depuis le dossier `notebooks/` (références du type `../data/...`).
 
-## Extraire les transcriptions depuis Arkindex
-
-Les textes peuvent être régénérés à partir d’un export SQLite Arkindex (fichier du type `*-arkindex-*.sqlite`).
-
-1. **Installer le client d’export**
-
-   ```bash
-   pip install arkindex-export
-   ```
-
-2. **Obtenir la base** — Depuis l’instance Arkindex du projet : menu *Import/Export* → *Manage database exports*, puis télécharger l’archive / le fichier SQLite le plus récent.
-
-3. **Configurer le script** — Dans `src/extract_text.py`, définir `DB_PATH` vers votre fichier `.sqlite` et, si besoin, ajuster `YEARS`, `ELECTIONS` et les identifiants de dossiers Arkindex (`folder_id`).
-
-4. **Lancer l’extraction** (depuis la racine du dépôt, pour que le dossier de sortie soit au bon endroit) :
-
-   ```bash
-   python src/extract_text.py
-   ```
-
-Les fichiers `.txt` sont écrits sous `text_files/<année>/<legislatives|presidentielle>/` (répertoire créé par le script). Pour la suite du pipeline, il faut aligner ces sorties avec les métadonnées et les emplacements attendus par les notebooks (`data/`).
-
 ## Dépendances principales
 
 Gensim, spaCy, scikit-learn, pandas, NumPy, SciPy, matplotlib, seaborn, tqdm — voir `pyproject.toml` pour les versions figées.
 
-## Licence et données
-
-Les contenus du corpus Archelec et les exports Arkindex sont soumis aux conditions d’usage de leurs fournisseurs respectifs ; ce dépôt documente surtout la chaîne d’analyse locale.
