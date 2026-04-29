@@ -1,0 +1,9 @@
+mot,drift_moyen,topic_dominant,famille_associee,lift_max
+immigration,0.5992,"T5: national, immigration, france",extreme_droite,10.13
+sécurité,0.445,"T5: national, immigration, france",extreme_droite,10.13
+chômage,0.4394,"T2: entreprise, travailleur, payer",gauche_radicale,1.8
+nation,0.4356,"T0: social, entreprise, liberté",centre_droite,1.9
+travail,0.3812,"T2: entreprise, travailleur, payer",gauche_radicale,1.8
+europe,0.3674,"T8: écologie, emploi, environnement",ecologistes,7.45
+social,0.3596,"T0: social, entreprise, liberté",centre_droite,1.9
+liberté,0.3142,"T3: france, majorité, député",droite_gaulliste,2.12
